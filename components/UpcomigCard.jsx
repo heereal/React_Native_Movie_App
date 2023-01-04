@@ -1,10 +1,17 @@
 import styled from '@emotion/native';
+import { useNavigation } from '@react-navigation/native';
 import { getImagePath } from '../util';
 
 const UpcomingCard = ({movie}) => {
+    const { navigate } = useNavigation();
 
     return (
-        <UpcomingMovieBox>
+        <UpcomingMovieBox
+            onPress={() => navigate("Stacks", {
+                screen: "Detail",
+                params: { movieId: movie.id }
+            })}
+        >
             <MoviePoster source={{uri: getImagePath(movie.poster_path)}} />
             <UpcomingMovieDesc>
                 <UpcomingTitle numberOfLines={1}>{movie.title}</UpcomingTitle>
@@ -19,7 +26,7 @@ const UpcomingCard = ({movie}) => {
 
 export default UpcomingCard;
 
-const UpcomingMovieBox = styled.View`
+const UpcomingMovieBox = styled.TouchableOpacity`
     display: flex;
     flex-direction: row;
 `

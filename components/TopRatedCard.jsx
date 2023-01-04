@@ -1,10 +1,17 @@
 import styled from '@emotion/native';
+import { useNavigation } from '@react-navigation/native';
 import { getImagePath } from '../util';
 
 const TopRatedCard = ({movie}) => {
+    const { navigate } = useNavigation(); 
 
     return (
-        <TopRatedBox>
+        <TopRatedBox
+            onPress={() => navigate("Stacks", {
+                screen: "Detail",
+                params: { movieId: movie.id }
+            })}
+        >
             <MoviePoster source={{uri: getImagePath(movie.poster_path)}} borderBottomLeftRadius={0} borderBottomRightRadius={0}/>
             <TopRatedDesc>
                 <MovieStars style={{color: "gray"}}>⭐ {movie.vote_average}/10</MovieStars>
@@ -17,7 +24,7 @@ const TopRatedCard = ({movie}) => {
 export default TopRatedCard;
 
 
-const TopRatedBox = styled.View`
+const TopRatedBox = styled.TouchableOpacity`
     width: 140px;
     // FIXME: 왜 안 되는 것??
     /* border-radius: 10px; */

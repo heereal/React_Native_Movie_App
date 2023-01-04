@@ -2,11 +2,18 @@ import { LinearGradient } from "expo-linear-gradient";
 import styled from '@emotion/native';
 import { SCREEN_HEIGHT, getImagePath } from '../util';
 import { StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const Slide = ({movie}) => {
+    const { navigate } = useNavigation();
 
     return (
-        <MovieContainer>
+        <MovieContainer 
+            onPress={() => navigate("Stacks", {
+                screen: "Detail",
+                params: { movieId: movie.id }
+            })}
+        >
             <BackgroundImg source={{uri: getImagePath(movie.backdrop_path)}} style={StyleSheet.absoluteFill} />
             <LinearGradient colors={["transparent", "black"]} style={StyleSheet.absoluteFill} />
             <Row>
@@ -26,7 +33,7 @@ const Slide = ({movie}) => {
 
 export default Slide;
 
-const MovieContainer = styled.View`
+const MovieContainer = styled.TouchableOpacity`
     height: ${SCREEN_HEIGHT / 3 + "px"};
     width: 100%;
     display: flex;

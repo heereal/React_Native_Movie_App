@@ -82,7 +82,6 @@ const Movies = () => {
                         keyExtractor={(item) => item.id}
                         // ItemSeparatorComponent={ <View style={{ width: 10 }} /> }
                     />
-                    
                     <ListTitle>Upcoming Movies</ListTitle>
                 </>
             }
@@ -102,17 +101,9 @@ const Loader = styled.View`
     align-items: center;
 `
 
-const Wrap = styled.ScrollView`
-    display: flex;
-`
-
 const ListTitle = styled.Text`
     color: #1864ab;
     font-size: 30px;
     font-weight: bold;
     margin: 20px 0 10px 10px;
-`
-
-const UpcomingMovies = styled.View`
-    
 `

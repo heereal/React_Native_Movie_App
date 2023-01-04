@@ -1,5 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text, TouchableOpacity } from "react-native";
+import Detail from '../screen/Detail';
+import styled from '@emotion/native';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,22 +52,28 @@ const Three = ({ navigation: { reset }}) => {
     )
 };
 
-const Stacks = () => {
+const Stacks = ({ navigation: { goBack }}) => {
 
     return (
-        // 일괄적으로 옵션 지정
-        <Stack.Navigator initialRouteName="one" screenOptions={{
-            headerTintColor: "blue",
-            // headerShown: false // 헤더를 감춤-safeAreaVieW까지 풀린다
-            // headerBackTitle: "뒤로갈게요",
-            // presentation: "modal"
-        }}>
-            {/* 해당 스크린에만 옵션 지정  */}
-            <Stack.Screen name="one" component={One} />
-            <Stack.Screen name="two" component={Two} />
-            <Stack.Screen options={{presentation: "modal"}} name="three" component={Three} />
+        <Stack.Navigator
+            screenOptions={{
+                headerTitleAlign: "center",
+                headerTintColor: "#1864ab",
+                headerLeft: () => (
+                    <TouchableOpacity onPress={() => goBack()}>
+                        <GoBackBtn>뒤로</GoBackBtn>
+                    </TouchableOpacity>
+                )
+            }}
+        >
+            <Stack.Screen name="Detail" component={Detail} />
         </Stack.Navigator>
     );
 };
 
 export default Stacks;
+
+const GoBackBtn = styled.Text`
+    color: gray;
+    font-size: 20px;
+`
