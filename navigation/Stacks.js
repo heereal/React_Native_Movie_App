@@ -5,6 +5,7 @@ import Login from '../screen/Login';
 import styled from '@emotion/native';
 import { signOut } from 'firebase/auth';
 import { authService } from '../firebase';
+import Review from '../screen/Review';
 
 const Stack = createNativeStackNavigator();
 
@@ -92,6 +93,7 @@ const Stacks = ({ navigation: { goBack, navigate, setOptions }}) => {
         >
             <Stack.Screen name="Detail" component={Detail} />
             <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Review" component={Review} />
         </Stack.Navigator>
     );
 };

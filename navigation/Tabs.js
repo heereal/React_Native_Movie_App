@@ -40,7 +40,7 @@ const Tabs = () => {
                     <Ionicons name="person" size={22} color={color} />
                 )
             }} 
-            name="my" 
+            name="My" 
             component={My}/>
         </Tab.Navigator>
     )

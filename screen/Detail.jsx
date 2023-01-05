@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-import { View, Text, Linking, ActivityIndicator, ScrollView, StyleSheet, useColorScheme } from "react-native";
+import { View, Text, Linking, ActivityIndicator, ScrollView, StyleSheet, useColorScheme, FlatList } from "react-native";
 import styled from "@emotion/native";
 import { getImagePath, SCREEN_HEIGHT } from "../util";
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from '@expo/vector-icons'; 
+import { authService, dbService } from "../firebase";
+import ReviewModal from "../components/ReviewModal";
+import ReviewCard from "../components/ReviewCard";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
 const Detail = ({ navigation: { navigate }, route: { params: { movieId }}}) => {
 
@@ -11,6 +15,8 @@ const Detail = ({ navigation: { navigate }, route: { params: { movieId }}}) => {
 
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isOpenModal, setIsOpenModal] = useState(false);
+    const [reviews, setReviews] = useState([]);
 
     const API_KEY = "fac9970ed3c9be3532413804fde88d6a";
     const BASE_URL = "https://api.themoviedb.org/3/movie"
@@ -29,8 +35,34 @@ const Detail = ({ navigation: { navigate }, route: { params: { movieId }}}) => {
         await Linking.openURL(url);
     }
 
+    // [Add Review] 버튼 클릭했을 때
+    const handleReviewModal = async () => {
+        const isLogin = !!authService.currentUser;
+        if (!isLogin) {
+            navigate("Login");
+            return;
+        }
+        setIsOpenModal(true);
+    };
+
+    const getReviews = async () => {
+        const q = query(
+            collection(dbService, "reviews"),
+            orderBy("createdAt", "desc")
+        );
+        
+        onSnapshot(q, (snapshot) => {
+            const newReviews = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setReviews(newReviews)
+        })
+    };
+
     useEffect(() => {
         getDetail();
+        getReviews();
     }, []);
 
     if (isLoading) {
@@ -59,6 +91,33 @@ const Detail = ({ navigation: { navigate }, route: { params: { movieId }}}) => {
                     </YoutubeLink>
                 ))}
             </YoutubeList>
+
+            <SectionTitle>Reviews</SectionTitle>
+        <AddReview onPress={handleReviewModal}>
+            <TempText>Add Review</TempText>
+        </AddReview>
+        <FlatList 
+            data={reviews}
+            keyExtractor={(item) => item.id}
+            renderItem={({item}) => {
+                if (item.movieId === movieId) {
+                    return <ReviewCard review={item} />
+                }
+            }}
+            ItemSeparatorComponent={HSeprator}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+                paddingHorizontal: 20,
+                marginBottom: 50,
+                justifyContent: "flex-start",
+            }}
+        />
+            <ReviewModal
+                isOpenModal={isOpenModal} 
+                setIsOpenModal={setIsOpenModal}
+                movieId={movieId}
+            />
         </ScrollView>
     )
 
@@ -113,5 +172,34 @@ const YoutubeLink = styled.TouchableOpacity`
 const YoutubeTitle = styled.Text`
     font-size: 22px;
     margin-left: 10px;
-    color: ${(props) => props.theme.youtubeText};
+    color: ${(props) => props.theme.text};
 `
+
+const SectionTitle = styled.Text`
+  color: ${(props) => props.theme.text};
+  font-size: 30px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+`
+
+const AddReview = styled.TouchableOpacity`
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border-width: 1px;
+  align-items: center;
+  border-color: ${(props) => props.theme.text};
+`;
+
+const TempText = styled.Text`
+  font-size: 20px;
+  color: ${(props) => props.theme.text};
+`;
+
+const HSeprator = styled.View`
+  width: 10px;
+`;

@@ -88,8 +88,6 @@ const Login = ({ navigation: { goBack, setOptions }}) => {
             });
     };
 
-
-
     return (
         <Wrap>
             <EmailInput
