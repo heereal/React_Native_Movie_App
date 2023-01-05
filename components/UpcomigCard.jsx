@@ -48,15 +48,15 @@ const UpcomingMovieDesc = styled.View`
 const UpcomingTitle = styled.Text`
     font-size: 30px;
     font-weight: bold;
-    color: gray;
+    color: ${(props) => props.theme.descColor};
 `
 
 const UpcomingMovieDate = styled.Text`
     font-size: 20px;
-    color: gray;
+    color: ${(props) => props.theme.descColor};
 `
 
 const UpcomingMovieStory = styled.Text`
-    color: gray;
+    color: ${(props) => props.theme.descColor};
     font-size: 20px;
 `

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { View, Text, Linking, ActivityIndicator, ScrollView, StyleSheet } from "react-native";
+import { View, Text, Linking, ActivityIndicator, ScrollView, StyleSheet, useColorScheme } from "react-native";
 import styled from "@emotion/native";
 import { getImagePath, SCREEN_HEIGHT } from "../util";
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from '@expo/vector-icons'; 
 
 const Detail = ({ navigation: { navigate }, route: { params: { movieId }}}) => {
+
+    const isDark = useColorScheme() === "dark";
 
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -52,7 +54,7 @@ const Detail = ({ navigation: { navigate }, route: { params: { movieId }}}) => {
             <YoutubeList>   
                 {data.videos.results.map((you) => (
                     <YoutubeLink key={you.id} onPress={() => openYoutube(you.key)}>
-                        <AntDesign name="youtube" size={24} color="black" />
+                        <AntDesign name="youtube" size={24} color={isDark ? "white" : "black"} />
                         <YoutubeTitle>{you.name}</YoutubeTitle>
                     </YoutubeLink>
                 ))}
@@ -111,4 +113,5 @@ const YoutubeLink = styled.TouchableOpacity`
 const YoutubeTitle = styled.Text`
     font-size: 22px;
     margin-left: 10px;
+    color: ${(props) => props.theme.youtubeText};
 `

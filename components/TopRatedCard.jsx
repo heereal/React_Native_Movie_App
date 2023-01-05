@@ -14,7 +14,7 @@ const TopRatedCard = ({movie}) => {
         >
             <MoviePoster source={{uri: getImagePath(movie.poster_path)}} borderBottomLeftRadius={0} borderBottomRightRadius={0}/>
             <TopRatedDesc>
-                <MovieStars style={{color: "gray"}}>⭐ {movie.vote_average}/10</MovieStars>
+                <MovieStars>⭐ {movie.vote_average}/10</MovieStars>
                 <TopRatedTitle numberOfLines={1}>{movie.title}</TopRatedTitle>
             </TopRatedDesc>
         </TopRatedBox>
@@ -38,21 +38,21 @@ const MoviePoster = styled.Image`
 `
 
 const TopRatedDesc = styled.View`
-    background-color: #dee2e6;
-    height: 60px;
+    background-color: #adb5bd;
+    height: 55px;
     width: 120px;
-    padding: 10px 10px 5px 10px;
+    padding: 8px 10px 5px 10px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 `
 
 const MovieStars = styled.Text`
     color: white;
-    font-size: 17px;
+    font-size: 16px;
 `
 
 const TopRatedTitle = styled.Text`
-    font-size: 20px;
+    font-size: 19px;
     font-weight: bold;
-    color: gray;
+    color: white;
 `

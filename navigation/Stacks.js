@@ -1,7 +1,10 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text, TouchableOpacity } from "react-native";
 import Detail from '../screen/Detail';
+import Login from '../screen/Login';
 import styled from '@emotion/native';
+import { signOut } from 'firebase/auth';
+import { authService } from '../firebase';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,7 +55,20 @@ const Three = ({ navigation: { reset }}) => {
     )
 };
 
-const Stacks = ({ navigation: { goBack }}) => {
+const Stacks = ({ navigation: { goBack, navigate, setOptions }}) => {
+
+    const handleAuth = () => {
+      if (!!authService.currentUser?.uid) {
+        signOut(authService)
+            .then(() => {
+                console.log("로그아웃 성공");
+                setOptions({ headerRight: null });
+            })
+            .catch((error) => alert(error));
+      }  else {
+        navigate("Login");
+      }
+    };
 
     return (
         <Stack.Navigator
@@ -63,10 +79,19 @@ const Stacks = ({ navigation: { goBack }}) => {
                     <TouchableOpacity onPress={() => goBack()}>
                         <GoBackBtn>뒤로</GoBackBtn>
                     </TouchableOpacity>
-                )
+                ),
+                headerRight: () => (
+                    <TouchableOpacity onPress={handleAuth}>
+                        <LoginBtn>
+                            {authService.currentUser ? "로그아웃" : "로그인"}
+                        </LoginBtn>
+                    </TouchableOpacity>
+                    
+                ),
             }}
         >
             <Stack.Screen name="Detail" component={Detail} />
+            <Stack.Screen name="Login" component={Login} />
         </Stack.Navigator>
     );
 };
@@ -75,5 +100,10 @@ export default Stacks;
 
 const GoBackBtn = styled.Text`
     color: gray;
+    font-size: 20px;
+`
+
+const LoginBtn = styled.Text`
+    color: #1864ab;
     font-size: 20px;
 `

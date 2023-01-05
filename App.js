@@ -12,6 +12,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+      <StatusBar style={isDark ? "light" : "dark"} />
       <NavigationContainer theme={isDark ? DarkTheme : DefaultTheme}>
         <Root />
       </NavigationContainer>

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Slide from '../components/Slide';
 import TopRatedCard from '../components/TopRatedCard';
 import UpcomingCard from '../components/UpcomigCard';
+import { INDIGO_COLOR } from '../colors';
 
 const Movies = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -102,7 +103,7 @@ const Loader = styled.View`
 `
 
 const ListTitle = styled.Text`
-    color: #1864ab;
+    color: #748ffc;
     font-size: 30px;
     font-weight: bold;
     margin: 20px 0 10px 10px;

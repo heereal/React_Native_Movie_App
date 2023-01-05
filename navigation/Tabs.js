@@ -3,8 +3,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import Movies from "../screen/Movies";
 import My from "../screen/My";
-import { BLUE_COLOR, DARK_COLOR } from "../colors";
+import { INDIGO_COLOR, DARK_COLOR } from "../colors";
 import { useColorScheme } from "react-native";
+import Login from "../screen/Login";
 
 const Tab = createBottomTabNavigator();
 
@@ -13,12 +14,12 @@ const Tabs = () => {
     return(
         <Tab.Navigator 
         sceneContainerStyle={{
-            backgroundColor: isDark ? DARK_COLOR : "white"
+            backgroundColor: isDark ? "black" : "white"
         }}
         screenOptions={{
             tabBarLabelPosition: "beside-icon",
             headerTitleAlign: "center",
-            headerTintColor: BLUE_COLOR,
+            headerTintColor: INDIGO_COLOR,
         }}>
             <Tab.Screen 
             options={{
